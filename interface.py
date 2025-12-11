@@ -5,6 +5,7 @@ config = Configuracoes()
 
 class Interface:
 
+    #metodo que define as dimensoes e entao cria a tela pelo pygame
     def dimensionar_tela(self):
         largura = config.largura
         altura = config.altura
