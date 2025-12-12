@@ -3,6 +3,7 @@ import pygame
 from configuracoes import Configuracoes
 from jogador import Jogador
 from inimigo import Inimigo
+from interface import Interface
 
 config = Configuracoes()
 
@@ -32,6 +33,8 @@ class Jogo:
         self.jogador = Jogador(x_inicial, y_inicial, limites_tela)
         self.inimigo = Inimigo(x_inicial + config.largura // 2, y_inicial, limites_tela)
 
+        self.interface = Interface()
+
     #gameloop
     def run(self):
         while self.rodando:
@@ -49,12 +52,17 @@ class Jogo:
     #atualiza os ultimos inputs dentro do gameloop
     def update(self):
         keys = pygame.key.get_pressed()
-        self.jogador.update(keys)
-        self.inimigo.update(self.jogador)
+        if self.jogador.vivo:
+            self.jogador.update(keys, self.inimigo)
+        if not self.jogador.vivo:
+            self.rodando = False
+        if self.inimigo.vivo:
+            self.inimigo.update(self.jogador)
 
     #metodo contendo as funcionalidades graficas do pygame
     def draw(self):
         self.tela.fill((0, 0, 0)) 
         self.tela.blit(self.jogador.imagem, self.jogador.rect)
-        self.tela.blit(self.inimigo.imagem, self.inimigo.rect)
+        if self.inimigo.vivo:
+            self.tela.blit(self.inimigo.imagem, self.inimigo.rect)
         pygame.display.flip()

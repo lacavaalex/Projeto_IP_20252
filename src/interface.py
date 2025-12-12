@@ -79,27 +79,22 @@ class Interface:
             if frame_atual >= len(frames_ataque):
                 esta_atacando = False 
                 frame_atual = 0 
-                imagem = frames_idle
-                return 
+
+                frame = frames_idle[0]
+                if esta_virado_esquerda: 
+                    frame = pygame.transform.flip(frame, True, False)
+                imagem = frame
+
+                return imagem, ultima_atualizacao, frame_atual, esta_atacando
 
         #controle da frame e direcao da frame atuais
         if frames_ataque:
-            frame = frames_ataque[frame_atual]
+            if frame_atual > len(frames_ataque):
+                frame = frames_ataque[0]
+            else:
+                frame = frames_ataque[frame_atual]
             if esta_virado_esquerda:
                 frame = pygame.transform.flip(frame, True, False)
             imagem = frame
 
-        #cria a area de ataque do soco
-        soco_largura = 30
-        soco_altura = 50
-        self.hitbox_soco = pygame.Rect(0, 0, soco_largura, soco_altura)
-
-        #alinha e direciona o ataque
-        self.hitbox_soco.centery = self.rect.centery
-
-        if self.esta_virado_esquerda:
-            self.hitbox_soco.right = self.rect.left + 15
-        else:
-            self.hitbox_soco.left = self.rect.right - 15
-
-        return imagem
+        return imagem, ultima_atualizacao, frame_atual, esta_atacando

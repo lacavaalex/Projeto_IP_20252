@@ -8,6 +8,7 @@ class Jogador(Personagem):
         #construtor da classe mae Personagem, e atributos herdados
         super().__init__(x, y, limite,
                          vida_max=15,
+                         ataque=5,
                          velocidade=3,
                          vivo=True,
                          largura_hitbox=40,
@@ -15,11 +16,17 @@ class Jogador(Personagem):
                          nome_pasta_sprites="sprites_jogador")
 
         self.interface = Interface()
-        
+
         #hitbox gerada pelo ataque
-        self.hitbox_soco = pygame.Rect(0, 0, 40, 20)
+        self.hitbox_soco = pygame.Rect(0, 0, 50, 30)
     
-    def update(self, keys):
+    def update(self, keys, inimigo):
+        #velociadade em ataque
+        if self.esta_atacando:
+            self.velocidade = 2
+        else:
+            self.velocidade = 3
+        
         #movimento
         esta_em_movimento = False
 
@@ -29,7 +36,7 @@ class Jogador(Personagem):
         elif keys[pygame.K_w]:
             self.hitbox.y -= self.velocidade
             esta_em_movimento = True
-        elif keys[pygame.K_a]:
+        if keys[pygame.K_a]:
             self.hitbox.x -= self.velocidade
             self.esta_virado_esquerda = True
             esta_em_movimento = True
@@ -38,9 +45,22 @@ class Jogador(Personagem):
             self.esta_virado_esquerda = False
             esta_em_movimento = True
         
-        self.imagem, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
-                                                                                                  self.ultima_atualizacao, self.frame_atual, esta_em_movimento,
-                                                                                                  self.esta_virado_esquerda)
+        #ataque
+        if keys[pygame.K_SPACE]:
+            if not self.esta_atacando:
+                self.esta_atacando = True
+                self.frame_atual = 0
+                self.atacar(self.hitbox_soco, [inimigo])
+        
+        if self.esta_atacando:
+            self.imagem, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,
+                                                                                                                        self.ultima_atualizacao, self.frame_atual,
+                                                                                                                        self.esta_virado_esquerda, self.esta_atacando)
+
+        else:
+            self.imagem, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
+                                                                                                      self.ultima_atualizacao, self.frame_atual, esta_em_movimento,
+                                                                                                      self.esta_virado_esquerda)
 
         #movimento da hitbox
         self.aplicar_limites()

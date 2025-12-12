@@ -4,7 +4,7 @@ from interface import Interface
 
 #classe mae para implementar o paradigma da herança
 class Personagem(pygame.sprite.Sprite):
-    def __init__(self, x, y, limite, vida_max, velocidade, vivo, largura_hitbox, altura_hitbox, nome_pasta_sprites):
+    def __init__(self, x, y, limite, vida_max, ataque, velocidade, vivo, largura_hitbox, altura_hitbox, nome_pasta_sprites):
         #esse construtor é para sobrepor a classe base Sprite do pygame e pode utilizar dela plenamente
         super().__init__()
         
@@ -15,6 +15,7 @@ class Personagem(pygame.sprite.Sprite):
         self.limite = limite
         self.VIDA_MAX = vida_max
         self._vida = self.VIDA_MAX 
+        self._ataque = ataque
         self._velocidade = velocidade
         self._vivo = vivo
     
@@ -45,7 +46,38 @@ class Personagem(pygame.sprite.Sprite):
         self.rect = self.imagem.get_rect()
         self.rect.midbottom = self.hitbox.midbottom
 
-    
+    #metodos de ataque e levar dano
+    def atacar(self, hitbox_soco, alvos_possiveis):
+        acertou = False
+
+        #centraliza e alinha a direcao da hitbox
+        hitbox_soco.centery = self.hitbox.centery
+        
+        if self.esta_virado_esquerda:
+            hitbox_soco.right = self.hitbox.left
+        else:
+            hitbox_soco.left = self.hitbox.right
+            
+        dano = self.ataque
+        
+        for alvo in alvos_possiveis:
+            #colliderect vem do pygame para verificar a intersecao das hitboxes
+            if alvo.vivo and self.hitbox_soco.colliderect(alvo.hitbox):
+
+                alvo.levar_dano(dano) 
+                
+                acertou = True
+            
+        return acertou
+
+    def levar_dano(self, dano):
+        #usando self.vida ao inves de self._vida significa que assim como as outras classes nós acessamos apenas o atributo argumento
+        self.vida -= dano
+
+        if self.vida <= 0: 
+            self.vida = 0
+            self.vivo = False
+
     #limites da hitbox
     def aplicar_limites(self):
         if self.hitbox.left < self.limite['esquerda']: self.hitbox.left = self.limite['esquerda']
@@ -72,6 +104,14 @@ class Personagem(pygame.sprite.Sprite):
         else:
             self._vida = novo_valor
     
+    @property
+    def ataque(self):
+        return self._ataque
+    
+    @ataque.setter
+    def ataque(self, novo_ataque):
+        self._ataque = novo_ataque
+
     @property
     def velocidade(self):
         return self._velocidade
