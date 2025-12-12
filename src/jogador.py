@@ -9,6 +9,7 @@ class Jogador(Personagem):
         super().__init__(x, y, limite,
                          vida_max=15,
                          velocidade=3,
+                         vivo=True,
                          largura_hitbox=40,
                          altura_hitbox=20,
                          nome_pasta_sprites="sprites_jogador")
@@ -37,7 +38,7 @@ class Jogador(Personagem):
             self.esta_virado_esquerda = False
             esta_em_movimento = True
         
-        self.image, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
+        self.imagem, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
                                                                                                   self.ultima_atualizacao, self.frame_atual, esta_em_movimento,
                                                                                                   self.esta_virado_esquerda)
 

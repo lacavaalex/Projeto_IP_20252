@@ -4,7 +4,7 @@ from interface import Interface
 
 #classe mae para implementar o paradigma da herança
 class Personagem(pygame.sprite.Sprite):
-    def __init__(self, x, y, limite, vida_max, velocidade, largura_hitbox, altura_hitbox, nome_pasta_sprites):
+    def __init__(self, x, y, limite, vida_max, velocidade, vivo, largura_hitbox, altura_hitbox, nome_pasta_sprites):
         #esse construtor é para sobrepor a classe base Sprite do pygame e pode utilizar dela plenamente
         super().__init__()
         
@@ -16,6 +16,7 @@ class Personagem(pygame.sprite.Sprite):
         self.VIDA_MAX = vida_max
         self._vida = self.VIDA_MAX 
         self._velocidade = velocidade
+        self._vivo = vivo
     
         #hitbox
         self.hitbox = pygame.Rect(0, 0, largura_hitbox, altura_hitbox)
@@ -40,8 +41,8 @@ class Personagem(pygame.sprite.Sprite):
         self.esta_atacando = False 
 
         #desenho da hitbox
-        self.image = self.frames_movimento[0]
-        self.rect = self.image.get_rect()
+        self.imagem = self.frames_movimento[0]
+        self.rect = self.imagem.get_rect()
         self.rect.midbottom = self.hitbox.midbottom
 
     
@@ -56,7 +57,6 @@ class Personagem(pygame.sprite.Sprite):
     #metodo de OVERRIDE obrigatorio
     def update(self):
         raise NotImplementedError("Override necessário, não pode ser usado diretamente pela classe-mãe")
-
 
     #properties
     @property
@@ -83,3 +83,11 @@ class Personagem(pygame.sprite.Sprite):
     @property
     def vida_max(self):
         return self.VIDA_MAX
+    
+    @property
+    def vivo(self):
+        return self._vivo
+    
+    @vivo.setter
+    def vivo(self, novo_estado):
+        self._vivo = novo_estado

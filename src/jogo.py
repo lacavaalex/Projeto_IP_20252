@@ -2,6 +2,7 @@ import pygame
 
 from configuracoes import Configuracoes
 from jogador import Jogador
+from inimigo import Inimigo
 
 config = Configuracoes()
 
@@ -29,6 +30,7 @@ class Jogo:
         y_inicial = config.altura // 2
         
         self.jogador = Jogador(x_inicial, y_inicial, limites_tela)
+        self.inimigo = Inimigo(x_inicial + config.largura // 2, y_inicial, limites_tela)
 
     #gameloop
     def run(self):
@@ -48,9 +50,11 @@ class Jogo:
     def update(self):
         keys = pygame.key.get_pressed()
         self.jogador.update(keys)
+        self.inimigo.update(self.jogador)
 
     #metodo contendo as funcionalidades graficas do pygame
     def draw(self):
         self.tela.fill((0, 0, 0)) 
-        self.tela.blit(self.jogador.image, self.jogador.rect)
+        self.tela.blit(self.jogador.imagem, self.jogador.rect)
+        self.tela.blit(self.inimigo.imagem, self.inimigo.rect)
         pygame.display.flip()
