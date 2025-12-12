@@ -28,7 +28,7 @@ class Jogo:
         x_inicial = config.largura // 2
         y_inicial = config.altura // 2
         
-        self.jogador = Jogador(x_inicial, y_inicial, limites_tela, )
+        self.jogador = Jogador(x_inicial, y_inicial, limites_tela)
 
     #gameloop
     def run(self):
