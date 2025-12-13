@@ -6,6 +6,11 @@ from configuracoes import Configuracoes
 config = Configuracoes()
 
 class Interface:
+    def __init__(self):
+        #fonte
+        pygame.font.init()
+        self.fonte = pygame.font.SysFont('Arial', 30, bold=True)
+        self.fonte_go = pygame.font.SysFont('Arial', 60, bold=True) 
 
     #metodo que define as dimensoes e entao cria a tela pelo pygame
     def dimensionar_tela(self):
@@ -27,7 +32,7 @@ class Interface:
                 img = pygame.transform.scale(img, tamanho_novo)
                 frames.append(img)
             except Exception as e:
-                print(f"ERRO: Imagem não encontrada: {caminho}")
+                print(f"ERRO: image não encontrada: {caminho}")
         return frames
     
     #retorna quais sao os sprites
@@ -61,9 +66,9 @@ class Interface:
         
         if esta_virado_esquerda: frame = pygame.transform.flip(frame, True, False)
         
-        imagem = frame
+        image = frame
 
-        return imagem, ultima_atualizacao, frame_atual
+        return image, ultima_atualizacao, frame_atual
 
     def animacao_ataque(self, frames_ataque, frames_idle, ultima_atualizacao, frame_atual, esta_virado_esquerda, esta_atacando):
         now = pygame.time.get_ticks()
@@ -83,9 +88,9 @@ class Interface:
                 frame = frames_idle[0]
                 if esta_virado_esquerda: 
                     frame = pygame.transform.flip(frame, True, False)
-                imagem = frame
+                image = frame
 
-                return imagem, ultima_atualizacao, frame_atual, esta_atacando
+                return image, ultima_atualizacao, frame_atual, esta_atacando
 
         #controle da frame e direcao da frame atuais
         if frames_ataque:
@@ -95,6 +100,12 @@ class Interface:
                 frame = frames_ataque[frame_atual]
             if esta_virado_esquerda:
                 frame = pygame.transform.flip(frame, True, False)
-            imagem = frame
+            image = frame
 
-        return imagem, ultima_atualizacao, frame_atual, esta_atacando
+        return image, ultima_atualizacao, frame_atual, esta_atacando
+    
+    def desenhar_go(self, tela, liberado_para_avancar):
+        if liberado_para_avancar:
+            if (pygame.time.get_ticks() // 500) % 2 == 0: 
+                texto_go = self.fonte_go.render("GO ->", True, (0, 255, 0)) 
+                tela.blit(texto_go, (config.largura - 250, config.altura // 2))

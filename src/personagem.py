@@ -42,8 +42,8 @@ class Personagem(pygame.sprite.Sprite):
         self.esta_atacando = False 
 
         #desenho da hitbox
-        self.imagem = self.frames_movimento[0]
-        self.rect = self.imagem.get_rect()
+        self.image = self.frames_movimento[0]
+        self.rect = self.image.get_rect()
         self.rect.midbottom = self.hitbox.midbottom
 
     #metodos de ataque e levar dano

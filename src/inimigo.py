@@ -27,7 +27,7 @@ class Inimigo(Personagem):
         self.RAIO_ATAQUE = 90
 
         #hitbox gerada pelo ataque
-        self.hitbox_soco = pygame.Rect(0, 0, 50, 30)
+        self.hitbox_soco = pygame.Rect(0, 0, 60, 60)
     
     def mudar_estado(self, novo_estado):
         estados_possiveis = ["idle", "movimento", "ataque", "apanhando"]

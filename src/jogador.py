@@ -18,7 +18,7 @@ class Jogador(Personagem):
         self.interface = Interface()
 
         #hitbox gerada pelo ataque
-        self.hitbox_soco = pygame.Rect(0, 0, 50, 30)
+        self.hitbox_soco = pygame.Rect(0, 0, 60, 60)
     
     def update(self, keys, grupo_inimigos):
         #velociadade em ataque
@@ -53,12 +53,12 @@ class Jogador(Personagem):
                 self.atacar(self.hitbox_soco, grupo_inimigos)
         
         if self.esta_atacando:
-            self.imagem, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,
+            self.image, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,
                                                                                                                         self.ultima_atualizacao, self.frame_atual,
                                                                                                                         self.esta_virado_esquerda, self.esta_atacando)
 
         else:
-            self.imagem, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
+            self.image, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
                                                                                                       self.ultima_atualizacao, self.frame_atual, esta_em_movimento,
                                                                                                       self.esta_virado_esquerda)
 
