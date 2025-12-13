@@ -89,7 +89,7 @@ class Inimigo(Personagem):
             self.esta_atacando = True
         
         if self.esta_atacando:
-            self.imagem, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,
+            self.image, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,
                                                                                                                         self.ultima_atualizacao, self.frame_atual,
                                                                                                                         self.esta_virado_esquerda, self.esta_atacando)
 
@@ -97,7 +97,7 @@ class Inimigo(Personagem):
                 self.mudar_estado("idle")
 
         else:
-            self.imagem, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
+            self.image, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
                                                                                                       self.ultima_atualizacao, self.frame_atual, esta_em_movimento,
                                                                                                       self.esta_virado_esquerda)
 

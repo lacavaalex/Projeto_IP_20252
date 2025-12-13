@@ -63,10 +63,11 @@ class Personagem(pygame.sprite.Sprite):
         for alvo in alvos_possiveis:
             #colliderect vem do pygame para verificar a intersecao das hitboxes
             if alvo.vivo and self.hitbox_soco.colliderect(alvo.hitbox):
-
-                alvo.levar_dano(dano) 
                 
-                acertou = True
+                if alvo is not self:
+                    alvo.levar_dano(dano) 
+                
+                    acertou = True
             
         return acertou
 

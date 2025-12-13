@@ -89,7 +89,7 @@ class Interface:
 
         #controle da frame e direcao da frame atuais
         if frames_ataque:
-            if frame_atual > len(frames_ataque):
+            if frame_atual >= len(frames_ataque):
                 frame = frames_ataque[0]
             else:
                 frame = frames_ataque[frame_atual]

@@ -20,7 +20,7 @@ class Jogador(Personagem):
         #hitbox gerada pelo ataque
         self.hitbox_soco = pygame.Rect(0, 0, 50, 30)
     
-    def update(self, keys, inimigo):
+    def update(self, keys, grupo_inimigos):
         #velociadade em ataque
         if self.esta_atacando:
             self.velocidade = 2
@@ -50,7 +50,7 @@ class Jogador(Personagem):
             if not self.esta_atacando:
                 self.esta_atacando = True
                 self.frame_atual = 0
-                self.atacar(self.hitbox_soco, [inimigo])
+                self.atacar(self.hitbox_soco, grupo_inimigos)
         
         if self.esta_atacando:
             self.imagem, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,

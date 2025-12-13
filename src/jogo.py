@@ -27,13 +27,22 @@ class Jogo:
         }
         
         #posicao inicial (central)
-        x_inicial = config.largura // 2
+        x_inicial = config.largura // 6
         y_inicial = config.altura // 2
         
-        self.jogador = Jogador(x_inicial, y_inicial, limites_tela)
-        self.inimigo = Inimigo(x_inicial + config.largura // 2, y_inicial, limites_tela)
-
         self.interface = Interface()
+
+        self.jogador = Jogador(x_inicial, y_inicial, limites_tela)
+        
+        #os inimigos existem dentro de um group no pygame
+        self.grupo_inimigos = pygame.sprite.Group() 
+        self.gerar_inimigos(3, limites_tela)
+
+    #geracao dos multiplos inimigos
+    def gerar_inimigos(self, num_inimigos, limites):
+        for n in range(num_inimigos):
+            novo_y = 100 + (200 * n)
+            self.grupo_inimigos.add(Inimigo(config.largura * 4 // 5, novo_y, limites))
 
     #gameloop
     def run(self):
@@ -52,17 +61,21 @@ class Jogo:
     #atualiza os ultimos inputs dentro do gameloop
     def update(self):
         keys = pygame.key.get_pressed()
+
+        #controle de vida e morte do jogador e dos inimigos
         if self.jogador.vivo:
-            self.jogador.update(keys, self.inimigo)
+            self.jogador.update(keys, self.grupo_inimigos)
         if not self.jogador.vivo:
             self.rodando = False
-        if self.inimigo.vivo:
-            self.inimigo.update(self.jogador)
+        for inimigo in self.grupo_inimigos:
+            if inimigo.vivo:
+                inimigo.update(self.jogador)
+            else:
+                inimigo.kill()
 
     #metodo contendo as funcionalidades graficas do pygame
     def draw(self):
         self.tela.fill((0, 0, 0)) 
         self.tela.blit(self.jogador.imagem, self.jogador.rect)
-        if self.inimigo.vivo:
-            self.tela.blit(self.inimigo.imagem, self.inimigo.rect)
+        self.grupo_inimigos.draw(self.tela)
         pygame.display.flip()
