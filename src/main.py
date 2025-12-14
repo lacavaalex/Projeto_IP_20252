@@ -11,7 +11,7 @@ def main():
 
     jogo = Jogo(tela)
 
-    jogo.run()
+    jogo.run() 
 
     pygame.quit()
 

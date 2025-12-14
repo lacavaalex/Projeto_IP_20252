@@ -28,7 +28,7 @@ class Jogador(Personagem):
         self.hitbox.topleft = self.hitbox_anterior.topleft
         self.rect.midbottom = self.hitbox.midbottom
 
-    def update(self, keys, grupo_inimigos):
+    def update(self, keys, grupo_inimigos, grupo_itens):
         self.hitbox_anterior = self.hitbox.copy()
         
         #velociadade em ataque
@@ -60,7 +60,7 @@ class Jogador(Personagem):
             if not self.esta_atacando:
                 self.esta_atacando = True
                 self.frame_atual = 0
-                self.atacar(self.hitbox_soco, grupo_inimigos)
+                self.atacar(self.hitbox_soco, list(grupo_inimigos) + list(grupo_itens))
         
         if self.esta_atacando:
             self.image, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,

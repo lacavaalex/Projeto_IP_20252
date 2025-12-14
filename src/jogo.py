@@ -141,7 +141,7 @@ class Jogo:
 
         #controle de vida e morte do jogador e dos inimigos
         if self.jogador.vivo:
-            self.jogador.update(keys, self.grupo_inimigos)
+            self.jogador.update(keys, self.grupo_inimigos, self.grupo_itens)
         if not self.jogador.vivo:
             self.rodando = False
         for inimigo in self.grupo_inimigos:

@@ -13,7 +13,11 @@ class Item(pygame.sprite.Sprite):
         
         imagens_item = self.interface.listar_sprites_item(tipo)
         self.frames_item = self.interface.carregar_lista_imagens(imagens_item, 3)
-        print(imagens_item)
+        
+        #definir item
+        self._eh_coletavel = self.definir_coletavel()
+        if not self._eh_coletavel:
+            self.durabilidade = 20
 
         #tratamento de erro
         if self.frames_item:
@@ -30,3 +34,27 @@ class Item(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.midbottom = self.hitbox.midbottom
+
+    #definir se o item é quebravel ou coletavel
+    def definir_coletavel(self):
+        if self.tipo == "lixo":
+            eh_coletavel = False
+        else:
+            eh_coletavel = True
+        return eh_coletavel
+
+    #se o objeto for quebravel ele leva dano igual os inimigos
+    def quebrar_objeto(self, dano):
+        self.durabilidade -= dano
+
+        if self.durabilidade <= 0:
+            self.kill()
+            
+
+    @property
+    def eh_coletavel(self):
+        return self._eh_coletavel
+    
+    @eh_coletavel.setter
+    def eh_coletavel(self, valor):
+        self._eh_coletavel = valor

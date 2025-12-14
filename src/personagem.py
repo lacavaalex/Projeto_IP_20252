@@ -1,6 +1,7 @@
 import pygame
 
 from interface import Interface
+from item import Item
 
 #classe mae para implementar o paradigma da herança
 class Personagem(pygame.sprite.Sprite):
@@ -62,12 +63,20 @@ class Personagem(pygame.sprite.Sprite):
         
         for alvo in alvos_possiveis:
             #colliderect vem do pygame para verificar a intersecao das hitboxes
-            if alvo.vivo and self.hitbox_soco.colliderect(alvo.hitbox):
+            if self.hitbox_soco.colliderect(alvo.hitbox):
                 
-                if alvo is not self:
+                #verificacao de instancia para apenas o jogador bater na lixeira
+                if alvo is not self and isinstance(alvo, Personagem) and alvo.vivo:
                     alvo.levar_dano(dano) 
                 
                     acertou = True
+                
+                if isinstance(alvo, Item) and not alvo.eh_coletavel:
+                    alvo.quebrar_objeto(dano)
+
+                    acertou = True
+
+                
             
         return acertou
 
