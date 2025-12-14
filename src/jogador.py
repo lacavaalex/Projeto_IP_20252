@@ -17,10 +17,20 @@ class Jogador(Personagem):
 
         self.interface = Interface()
 
+        #hitbox criada para colisao
+        self.hitbox_anterior = self.hitbox.copy()
+        
         #hitbox gerada pelo ataque
         self.hitbox_soco = pygame.Rect(0, 0, 60, 60)
     
+    #bloqueia o movimento por colisao
+    def bloquear_movimento(self):
+        self.hitbox.topleft = self.hitbox_anterior.topleft
+        self.rect.midbottom = self.hitbox.midbottom
+
     def update(self, keys, grupo_inimigos):
+        self.hitbox_anterior = self.hitbox.copy()
+        
         #velociadade em ataque
         if self.esta_atacando:
             self.velocidade = 2

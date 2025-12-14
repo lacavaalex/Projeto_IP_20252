@@ -44,6 +44,12 @@ class Interface:
 
         return lista_sprites_idle, lista_sprites_movimento, lista_sprites_ataque
     
+    def listar_sprites_item(self, tipo):
+        pasta_imagens = os.path.join(os.getcwd(), "res", "sprites_itens", f'{tipo}')
+        lista_sprites_item = [os.path.join(pasta_imagens, f"{tipo}_00.png")]
+
+        return lista_sprites_item
+    
     #metodos de animacao de ataque e movimento
     def animacao_movimento(self, frames_movimento, frames_idle, ultima_atualizacao, frame_atual, esta_em_movimento, esta_virado_esquerda):
         now = pygame.time.get_ticks()
