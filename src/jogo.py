@@ -22,38 +22,51 @@ class Jogo:
         #sistema de progressão
         self.fase_atual = 1
         self.liberado_para_avancar = False
+        self.eh_checkpoint = False
+        self.item_checkpoint_gerado = False
+        self.itens_coletados = []
 
-         # DADOS DAS FASES
+        # DADOS DAS FASES
         self.dados_fases = {
             1: { "nome": "Niate", "cor": (50, 50, 100), "lixos": None,
-                 "inimigos": [(config.largura - 400, 450), (config.largura - 600, 500)]},
+                 "inimigos": [(config.largura - 400, 450), (config.largura - 600, 500)],
+                 "checkpoint": False},
             
             2: { "nome": "Ponte", "cor": (60, 60, 120), "lixos": [(config.largura // 2, config.altura * 3 // 4)],
-                 "inimigos": [(config.largura - 200, 450), (config.largura - 700, 450), (config.largura - 400, 400)]},
+                 "inimigos": [(config.largura - 200, 450), (config.largura - 700, 450), (config.largura - 400, 400)],
+                 "checkpoint": False},
             
             3: { "nome": "Churrasquito", "cor": (100, 60, 40), "lixos": [(config.largura * 3 // 4 + 100, config.altura * 3 // 4 - 100)],
-                 "inimigos": [(config.largura - 100, 400), (config.largura - 300, 500), (config.largura - 500, 350)]},
+                 "inimigos": [(config.largura - 100, 400), (config.largura - 300, 500), (config.largura - 500, 350)],
+                 "checkpoint": True},
 
             4: { "nome": "CAC", "cor": (40, 40, 40), "lixos": None,
-                 "inimigos": [(config.largura - 400, 450), (config.largura - 500, 500)]},
+                 "inimigos": [(config.largura - 400, 450), (config.largura - 500, 500)],
+                 "checkpoint": False},
             
             5: { "nome": "CTG", "cor": (30, 50, 30), "lixos": [(config.largura // 4, config.altura * 3 // 4), (config.largura * 3 // 4 + 100, config.altura * 3 // 4 - 100)],
-                 "inimigos": [(config.largura - 200, 400), (config.largura - 600, 400)]},
+                 "inimigos": [(config.largura - 200, 400), (config.largura - 600, 400)],
+                 "checkpoint": False},
             
             6: { "nome": "Caminho CIn", "cor": (20, 20, 20), "lixos": [(config.largura // 2, config.altura * 3 // 4)],
-                 "inimigos": [(config.largura - 100, 450), (config.largura - 300, 450), (config.largura - 500, 450)]},
+                 "inimigos": [(config.largura - 100, 450), (config.largura - 300, 450), (config.largura - 500, 450)],
+                 "checkpoint": True},
 
             7: { "nome": "Fachada CIn", "cor": (100, 200, 100), "lixos": None,
-                 "inimigos": [(config.largura - 300, 500), (config.largura - 500, 500)]},
+                 "inimigos": [(config.largura - 300, 500), (config.largura - 500, 500)],
+                 "checkpoint": False},
             
             8: { "nome": "Bloco A", "cor": (200, 200, 200), "lixos": [(config.largura // 5, config.altura * 4 // 5)],
-                 "inimigos": [(config.largura - 100, 400), (config.largura - 700, 450)]},
+                 "inimigos": [(config.largura - 100, 400), (config.largura - 700, 450)],
+                 "checkpoint": False},
             
             9: { "nome": "Grad 5", "cor": (50, 50, 200), "lixos": None,
-                 "inimigos": [(config.largura - 200, 400), (config.largura - 300, 500), (config.largura - 400, 400)]},
+                 "inimigos": [(config.largura - 200, 400), (config.largura - 300, 500), (config.largura - 400, 400)],
+                 "checkpoint": True},
 
             10: { "nome": "BOSS: WALLYSON", "cor": (100, 0, 0), "lixos": None,
-                  "inimigos": [(config.largura - 600, 450)]}
+                  "inimigos": [(config.largura - 600, 450)],
+                  "checkpoint": False}
         }
 
         #define os limites de movimento do jogador
@@ -74,10 +87,13 @@ class Jogo:
         self.iniciar_fase(self.fase_atual)
 
     def iniciar_fase(self, numero):
+        self.item_checkpoint_gerado = False
         self.liberado_para_avancar = False
+        if self.fase_atual <= len(self.dados_fases):
+            self.eh_checkpoint = self.dados_fases[numero]["checkpoint"]
         
         #fim de jogo
-        if numero > len(self.dados_fases):
+        if self.fase_atual > len(self.dados_fases):
             print("ZEROU O JOGO!")
             return
 
@@ -107,14 +123,33 @@ class Jogo:
                 self.grupo_itens.add(Item(x, y, tipo))
 
     #funcao que verifica se podemos passar para a proxima fase
-    def checar_progresso(self):
-        if len(self.grupo_inimigos) == 0:
-            self.liberado_para_avancar = True 
+    def checar_progresso(self, eh_checkpoint):
+        if not eh_checkpoint:
+            if len(self.grupo_inimigos) == 0:
+                self.liberado_para_avancar = True 
+        else:
+            if self.fase_atual == 3:
+                item = "hamburger"
+                tamanho_colecao = 1
+            elif self.fase_atual == 6:
+                item = "cracha"
+                tamanho_colecao = 2
+            elif self.fase_atual == 9:
+                item = "notebook"
+                tamanho_colecao = 3
+
+            #criacao dos itens de final das fases do checkpoints, e verificacao de coleta
+            if len(self.grupo_inimigos) == 0 and not self.item_checkpoint_gerado:
+                self.gerar_itens(item, [(config.largura - 150, config.altura / 2)])
+                self.item_checkpoint_gerado = True
             
-            if self.liberado_para_avancar:
-                if self.jogador.hitbox.right >= config.largura - config.largura/7:
-                    self.fase_atual += 1
-                    self.iniciar_fase(self.fase_atual)
+            if len(self.grupo_inimigos) == 0 and len(self.itens_coletados) == tamanho_colecao:
+                self.liberado_para_avancar = True
+            
+        if self.liberado_para_avancar:
+            if self.jogador.hitbox.right >= config.largura - config.largura/11:
+                self.fase_atual += 1
+                self.iniciar_fase(self.fase_atual)
 
     #gameloop
     def run(self):
@@ -150,9 +185,9 @@ class Jogo:
                 inimigo.kill()
         
         #ESSENCIAL PRO PROJETO metodo que realiza a coleta do item pelo jogador
-        self.jogador.interagir_com_item(self.grupo_itens)
+        self.jogador.interagir_com_item(self.grupo_itens, self.itens_coletados)
 
-        self.checar_progresso()
+        self.checar_progresso(self.eh_checkpoint)
 
     #metodo contendo as funcionalidades graficas do pygame
     def draw(self, fase_atual):
@@ -162,4 +197,5 @@ class Jogo:
         self.tela.blit(self.jogador.image, self.jogador.rect)
         self.grupo_inimigos.draw(self.tela)
         self.interface.desenhar_vida(self.tela, self.jogador.vida, self.jogador.VIDA_MAX)
+        self.interface.mostrar_itens_coletados(self.tela, self.itens_coletados)
         pygame.display.flip()

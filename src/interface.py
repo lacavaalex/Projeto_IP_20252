@@ -7,11 +7,6 @@ config = Configuracoes()
 
 class Interface:
     def __init__(self):
-        #imagens_vida
-        pasta_imagens = os.path.join(os.getcwd(), "res", "sprites_vida")
-        caminhos_vida = [os.path.join(pasta_imagens, f'sprite_0{i}.png') for i in range(0, 3)]
-        self.frames_vida = self.carregar_lista_imagens(caminhos_vida, 3)
-        
         #fonte
         pygame.font.init()
         self.fonte = pygame.font.SysFont('Arial', 30, bold=True)
@@ -56,6 +51,11 @@ class Interface:
         return lista_sprites_item
     
     def desenhar_vida(self, tela, vida, vida_max):
+        #imagens_vida
+        pasta_imagens = os.path.join(os.getcwd(), "res", "sprites_vida")
+        caminhos_vida = [os.path.join(pasta_imagens, f'sprite_0{i}.png') for i in range(0, 3)]
+        self.frames_vida = self.carregar_lista_imagens(caminhos_vida, 3)
+
         lista_desenho = []
         if vida_max * 5 / 6 < vida <= vida_max:
             lista_desenho.extend([self.frames_vida[0]] * 3)
@@ -75,6 +75,23 @@ class Interface:
             tela.blit(frame, (x, 50))
             x += frame.get_width()
 
+    def mostrar_itens_coletados(self, tela, itens_coletados):
+        caminho = [os.path.join("res", "sprites_itens", "moldura", "moldura_00.png")]
+        self.moldura_itens = self.carregar_lista_imagens(caminho, 4)[0]
+            
+        x = 50
+        largura_moldura = self.moldura_itens.get_width()
+        
+        for i in range(3):
+            tela.blit(self.moldura_itens, (x, config.altura - 150))
+            
+            if i < len(itens_coletados):
+                frame = itens_coletados[i]
+                item_x = x + (largura_moldura - frame.get_width()) // 2
+                item_y = config.altura - 150 + (self.moldura_itens.get_height() - frame.get_height()) // 2
+                tela.blit(frame, (item_x, item_y))
+            
+            x += largura_moldura + 10
 
     #metodos de animacao de ataque e movimento
     def animacao_movimento(self, frames_movimento, frames_idle, ultima_atualizacao, frame_atual, esta_em_movimento, esta_virado_esquerda):

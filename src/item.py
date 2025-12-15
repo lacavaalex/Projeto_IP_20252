@@ -26,7 +26,7 @@ class Item(pygame.sprite.Sprite):
             self.image = pygame.Surface([30, 30])
             self.image.fill((150, 150, 150))
 
-        if self.tipo == "coracao":
+        if self.eh_coletavel:
             LARGURA_HITBOX_ITEM = 110
             ALTURA_HITBOX_ITEM = 90
         else:
