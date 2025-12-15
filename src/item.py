@@ -26,8 +26,12 @@ class Item(pygame.sprite.Sprite):
             self.image = pygame.Surface([30, 30])
             self.image.fill((150, 150, 150))
 
-        LARGURA_HITBOX_ITEM = 60 
-        ALTURA_HITBOX_ITEM = 70
+        if self.tipo == "coracao":
+            LARGURA_HITBOX_ITEM = 110
+            ALTURA_HITBOX_ITEM = 90
+        else:
+            LARGURA_HITBOX_ITEM = 60 
+            ALTURA_HITBOX_ITEM = 70
         
         self.hitbox = pygame.Rect(0, 0, LARGURA_HITBOX_ITEM, ALTURA_HITBOX_ITEM)
         self.hitbox.topleft = (x, y) 
@@ -48,6 +52,12 @@ class Item(pygame.sprite.Sprite):
         self.durabilidade -= dano
 
         if self.durabilidade <= 0:
+            if self.tipo == "lixo":
+                novo_item = Item(self.hitbox.centerx - 20, self.hitbox.centery - 20, "coracao")
+                
+                for grupo in self.groups():
+                    grupo.add(novo_item)
+            
             self.kill()
             
 

@@ -94,7 +94,6 @@ class Jogo:
         #posiciona o jogador
         self.jogador.hitbox.topleft = (self.x_inicial, self.y_inicial)
         self.jogador.vivo = True
-        self.jogador.vida = self.jogador.VIDA_MAX
 
     #geracao dos multiplos inimigos
     def gerar_inimigos(self, posicoes_inimigos, limites):
@@ -150,10 +149,8 @@ class Jogo:
             else:
                 inimigo.kill()
         
-        for item in self.grupo_itens:
-            if self.jogador.hitbox.colliderect(item.hitbox):
-                if item.tipo == "lixo": 
-                    self.jogador.bloquear_movimento()
+        #ESSENCIAL PRO PROJETO metodo que realiza a coleta do item pelo jogador
+        self.jogador.interagir_com_item(self.grupo_itens)
 
         self.checar_progresso()
 
@@ -164,4 +161,5 @@ class Jogo:
         self.interface.desenhar_go(self.tela, self.liberado_para_avancar)
         self.tela.blit(self.jogador.image, self.jogador.rect)
         self.grupo_inimigos.draw(self.tela)
+        self.interface.desenhar_vida(self.tela, self.jogador.vida, self.jogador.VIDA_MAX)
         pygame.display.flip()

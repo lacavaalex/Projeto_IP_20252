@@ -23,10 +23,31 @@ class Jogador(Personagem):
         #hitbox gerada pelo ataque
         self.hitbox_soco = pygame.Rect(0, 0, 60, 60)
     
+    #ESSENCIAL metodo de interacao com itens
+    def interagir_com_item(self, grupo_itens):
+        for item in grupo_itens:
+            #o modulo colliderect do pygame é o que faz com que a interacao seja detectada
+            if self.hitbox.colliderect(item.hitbox):
+
+                if item.tipo == "lixo": 
+                    self.bloquear_movimento()
+
+                elif item.tipo == "coracao":
+                    self.recuperar_vida(item)
+
     #bloqueia o movimento por colisao
     def bloquear_movimento(self):
         self.hitbox.topleft = self.hitbox_anterior.topleft
         self.rect.midbottom = self.hitbox.midbottom
+
+    #metodo que recupera a vida ao pegar um corqacao
+    def recuperar_vida(self, item):
+        print(self.vida)
+        cura = self.VIDA_MAX / 3
+        self.vida += cura 
+        print(self.vida)
+            
+        item.kill()
 
     def update(self, keys, grupo_inimigos, grupo_itens):
         self.hitbox_anterior = self.hitbox.copy()

@@ -7,6 +7,11 @@ config = Configuracoes()
 
 class Interface:
     def __init__(self):
+        #imagens_vida
+        pasta_imagens = os.path.join(os.getcwd(), "res", "sprites_vida")
+        caminhos_vida = [os.path.join(pasta_imagens, f'sprite_0{i}.png') for i in range(0, 3)]
+        self.frames_vida = self.carregar_lista_imagens(caminhos_vida, 3)
+        
         #fonte
         pygame.font.init()
         self.fonte = pygame.font.SysFont('Arial', 30, bold=True)
@@ -50,6 +55,27 @@ class Interface:
 
         return lista_sprites_item
     
+    def desenhar_vida(self, tela, vida, vida_max):
+        lista_desenho = []
+        if vida_max * 5 / 6 < vida <= vida_max:
+            lista_desenho.extend([self.frames_vida[0]] * 3)
+        elif vida_max * 4 / 6 < vida <= vida_max * 5 / 6:
+            lista_desenho.extend([self.frames_vida[0]] * 2 + [self.frames_vida[1]])
+        elif vida_max * 3 / 6 < vida <= vida_max * 4 / 6:
+            lista_desenho.extend([self.frames_vida[0]] * 2 + [self.frames_vida[2]])
+        elif vida_max * 2 / 6 < vida <= vida_max * 3 / 6:
+            lista_desenho.extend([self.frames_vida[0]] + [self.frames_vida[1]] + [self.frames_vida[2]])
+        elif vida_max * 1 / 6 < vida <= vida_max * 2 / 6:
+            lista_desenho.extend([self.frames_vida[0]] + [self.frames_vida[2]] * 2)
+        elif 0 < vida <= vida_max * 1 / 6:
+            lista_desenho.extend([self.frames_vida[1]] + [self.frames_vida[2]] * 2)
+
+        x = 50
+        for frame in lista_desenho:
+            tela.blit(frame, (x, 50))
+            x += frame.get_width()
+
+
     #metodos de animacao de ataque e movimento
     def animacao_movimento(self, frames_movimento, frames_idle, ultima_atualizacao, frame_atual, esta_em_movimento, esta_virado_esquerda):
         now = pygame.time.get_ticks()
