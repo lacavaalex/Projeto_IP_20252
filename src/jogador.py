@@ -22,6 +22,11 @@ class Jogador(Personagem):
         
         #hitbox gerada pelo ataque
         self.hitbox_soco = pygame.Rect(0, 0, 60, 60)
+
+        #atributos para serem atualizados
+        self.velocidade_inicial = self.velocidade
+        self.ataque_inicial = self.ataque
+        self._quantidade_coracoes = 3
     
     #ESSENCIAL metodo de interacao com itens
     def interagir_com_item(self, grupo_itens, itens_coletados):
@@ -33,8 +38,7 @@ class Jogador(Personagem):
                     self.bloquear_movimento()
 
                 else:
-                    self.coletar_item(item, itens_coletados)
-                    
+                    self.coletar_item(item, itens_coletados)              
 
     #bloqueia o movimento por colisao
     def bloquear_movimento(self):
@@ -52,14 +56,28 @@ class Jogador(Personagem):
             
         item.kill()
 
-    def update(self, keys, grupo_inimigos, grupo_itens):
+    def update(self, keys, grupo_inimigos, grupo_itens, itens_coletados):
         self.hitbox_anterior = self.hitbox.copy()
-        
+
+        #hamburger na lista
+        if len(itens_coletados) > 0:
+            self._quantidade_coracoes = 4
+
+        #cracha na lista
+        if len(itens_coletados) > 1:
+            self.velocidade_base = self.velocidade_inicial * 1.5
+        else:
+            self.velocidade_base = self.velocidade_inicial
+
+        #notebook na lista
+        if len(itens_coletados) > 2:
+            self.ataque = self.ataque_inicial * 2
+
         #velociadade em ataque
         if self.esta_atacando:
-            self.velocidade = 2
+            self.velocidade = self.velocidade_base - 1
         else:
-            self.velocidade = 3
+            self.velocidade = self.velocidade_base
         
         #movimento
         esta_em_movimento = False
@@ -99,3 +117,15 @@ class Jogador(Personagem):
         #movimento da hitbox
         self.aplicar_limites()
         self.rect.midbottom = self.hitbox.midbottom
+
+        @property
+        def quantidade_coracoes(self):
+            return self._quantidade_coracoes
+
+        @quantidade_coracoes.setter
+        def quantidade_coracoes(self, nova_qnt):
+            if nova_qnt != self._quantidade_coracoes:
+                vida_percentual = self.vida / self.VIDA_MAX
+                self._quantidade_coracoes = nova_qnt
+                self.VIDA_MAX = nova_qnt * 5
+                self.vida = vida_percentual * self.VIDA_MAX

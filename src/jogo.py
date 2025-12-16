@@ -73,7 +73,7 @@ class Jogo:
         self.limites_tela = {
             'esquerda': 0, 
             'direita': config.largura, 
-            'topo': 0, 
+            'topo': config.altura/3, 
             'baixo': config.altura
         }
         
@@ -175,7 +175,7 @@ class Jogo:
 
         #controle de vida e morte do jogador e dos inimigos
         if self.jogador.vivo:
-            self.jogador.update(keys, self.grupo_inimigos, self.grupo_itens)
+            self.jogador.update(keys, self.grupo_inimigos, self.grupo_itens, self.itens_coletados)
         if not self.jogador.vivo:
             self.rodando = False
         for inimigo in self.grupo_inimigos:
@@ -196,6 +196,6 @@ class Jogo:
         self.interface.desenhar_go(self.tela, self.liberado_para_avancar)
         self.tela.blit(self.jogador.image, self.jogador.rect)
         self.grupo_inimigos.draw(self.tela)
-        self.interface.desenhar_vida(self.tela, self.jogador.vida, self.jogador.VIDA_MAX)
+        self.interface.desenhar_vida(self.tela, self.jogador.vida, self.jogador.VIDA_MAX, self.jogador._quantidade_coracoes)
         self.interface.mostrar_itens_coletados(self.tela, self.itens_coletados)
         pygame.display.flip()

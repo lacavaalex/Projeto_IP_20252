@@ -50,25 +50,29 @@ class Interface:
 
         return lista_sprites_item
     
-    def desenhar_vida(self, tela, vida, vida_max):
-        #imagens_vida
+    def desenhar_vida(self, tela, vida, vida_max, quantidade_coracoes):
         pasta_imagens = os.path.join(os.getcwd(), "res", "sprites_vida")
         caminhos_vida = [os.path.join(pasta_imagens, f'sprite_0{i}.png') for i in range(0, 3)]
         self.frames_vida = self.carregar_lista_imagens(caminhos_vida, 3)
 
         lista_desenho = []
-        if vida_max * 5 / 6 < vida <= vida_max:
-            lista_desenho.extend([self.frames_vida[0]] * 3)
-        elif vida_max * 4 / 6 < vida <= vida_max * 5 / 6:
-            lista_desenho.extend([self.frames_vida[0]] * 2 + [self.frames_vida[1]])
-        elif vida_max * 3 / 6 < vida <= vida_max * 4 / 6:
-            lista_desenho.extend([self.frames_vida[0]] * 2 + [self.frames_vida[2]])
-        elif vida_max * 2 / 6 < vida <= vida_max * 3 / 6:
-            lista_desenho.extend([self.frames_vida[0]] + [self.frames_vida[1]] + [self.frames_vida[2]])
-        elif vida_max * 1 / 6 < vida <= vida_max * 2 / 6:
-            lista_desenho.extend([self.frames_vida[0]] + [self.frames_vida[2]] * 2)
-        elif 0 < vida <= vida_max * 1 / 6:
-            lista_desenho.extend([self.frames_vida[1]] + [self.frames_vida[2]] * 2)
+        
+        vida_por_coracao = vida_max / quantidade_coracoes
+        
+        for i in range(quantidade_coracoes):
+            vida_inicio = i * vida_por_coracao
+            vida_fim = (i + 1) * vida_por_coracao
+            
+            vida_no_segmento = min(max(vida - vida_inicio, 0), vida_por_coracao)
+            
+            percentual_preenchido = vida_no_segmento / vida_por_coracao
+            
+            if percentual_preenchido > 2/3: 
+                lista_desenho.append(self.frames_vida[0])
+            elif percentual_preenchido > 1/3:
+                lista_desenho.append(self.frames_vida[1])
+            else:
+                lista_desenho.append(self.frames_vida[2])
 
         x = 50
         for frame in lista_desenho:
