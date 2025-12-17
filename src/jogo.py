@@ -3,6 +3,7 @@ import pygame
 from configuracoes import Configuracoes
 from jogador import Jogador
 from inimigo import Inimigo
+from chefe import Chefe
 from interface import Interface
 from item import Item
 from textos import Textos
@@ -128,7 +129,10 @@ class Jogo:
     #geracao dos multiplos inimigos
     def gerar_inimigos(self, posicoes_inimigos, limites):
         for x, y in posicoes_inimigos:
-            self.grupo_inimigos.add(Inimigo(x, y, limites))
+            if self.fase_atual == len(self.dados_fases):
+                self.grupo_inimigos.add(Chefe(x, y, limites))
+            else:
+                self.grupo_inimigos.add(Inimigo(x, y, limites))
 
     #geracao dos itens
     def gerar_itens(self, tipo, dados_itens):

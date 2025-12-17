@@ -22,7 +22,7 @@ class Personagem(pygame.sprite.Sprite):
     
         #hitbox
         self.hitbox = pygame.Rect(0, 0, largura_hitbox, altura_hitbox)
-        self.hitbox.topleft = (x, y) 
+        self.hitbox.topleft = (x, y)
 
         #imagens de sprite
         self.pasta_sprites = nome_pasta_sprites
@@ -52,8 +52,8 @@ class Personagem(pygame.sprite.Sprite):
         acertou = False
 
         #centraliza e alinha a direcao da hitbox
-        hitbox_soco.centery = self.hitbox.centery
-        
+        hitbox_soco.centery = self.rect.centery - 10
+    
         if self.esta_virado_esquerda:
             hitbox_soco.right = self.hitbox.left
         else:
@@ -95,6 +95,9 @@ class Personagem(pygame.sprite.Sprite):
         
         if self.hitbox.top < self.limite['topo']: self.hitbox.top = self.limite['topo']
         elif self.hitbox.bottom > self.limite['baixo']: self.hitbox.bottom = self.limite['baixo']
+
+        #hitbox ajustada
+        self.rect.center = self.hitbox.center
 
     #metodo de OVERRIDE obrigatorio
     def update(self):

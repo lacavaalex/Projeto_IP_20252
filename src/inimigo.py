@@ -12,7 +12,7 @@ class Inimigo(Personagem):
                          velocidade=2,
                          vivo=True,
                          largura_hitbox=40,
-                         altura_hitbox=20,
+                         altura_hitbox=80,
                          nome_pasta_sprites="sprites_inimigo")
 
         self.interface = Interface()
@@ -103,4 +103,4 @@ class Inimigo(Personagem):
 
         #movimento da hitbox
         self.aplicar_limites()
-        self.rect.midbottom = self.hitbox.midbottom
+        self.rect.center = self.hitbox.center
