@@ -8,7 +8,7 @@ class Jogador(Personagem):
         #construtor da classe mae Personagem, e atributos herdados
         super().__init__(x, y, limite,
                          vida_max=15,
-                         ataque=5,
+                         ataque=50,
                          velocidade=3,
                          vivo=True,
                          largura_hitbox=40,
@@ -28,6 +28,13 @@ class Jogador(Personagem):
         self.ataque_inicial = self.ataque
         self._quantidade_coracoes = 3
     
+    #resetar atributos apos morte
+    def resetar_atributos(self, jogo):
+        self.vivo = True
+        self.ataque = self.ataque_inicial
+        self.velocidade = self.velocidade_inicial
+        self.vida = self.VIDA_MAX
+
     #ESSENCIAL metodo de interacao com itens
     def interagir_com_item(self, grupo_itens, itens_coletados):
         for item in grupo_itens:
@@ -118,14 +125,14 @@ class Jogador(Personagem):
         self.aplicar_limites()
         self.rect.midbottom = self.hitbox.midbottom
 
-        @property
-        def quantidade_coracoes(self):
-            return self._quantidade_coracoes
+    @property
+    def quantidade_coracoes(self):
+        return self._quantidade_coracoes
 
-        @quantidade_coracoes.setter
-        def quantidade_coracoes(self, nova_qnt):
-            if nova_qnt != self._quantidade_coracoes:
-                vida_percentual = self.vida / self.VIDA_MAX
-                self._quantidade_coracoes = nova_qnt
-                self.VIDA_MAX = nova_qnt * 5
-                self.vida = vida_percentual * self.VIDA_MAX
+    @quantidade_coracoes.setter
+    def quantidade_coracoes(self, nova_qnt):
+        if nova_qnt != self._quantidade_coracoes:
+            vida_percentual = self.vida / self.VIDA_MAX
+            self._quantidade_coracoes = nova_qnt
+            self.VIDA_MAX = nova_qnt * 5
+            self.vida = vida_percentual * self.VIDA_MAX
