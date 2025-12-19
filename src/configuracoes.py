@@ -1,4 +1,4 @@
-#essa classe contem as configuracoes mais fundamentais da estrutura do jogo (dimensoes de tela, fps)
+# essa classe contem as configuracoes mais fundamentais da estrutura do jogo (dimensoes de tela, fps)
 class Configuracoes:
     def __init__(self):
         self._largura = 1200
@@ -8,11 +8,11 @@ class Configuracoes:
     @property
     def largura(self):
         return self._largura
-    
+
     @property
     def altura(self):
         return self._altura
-    
+
     @property
     def fps(self):
         return self._fps

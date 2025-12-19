@@ -17,6 +17,9 @@ class Jogador(Personagem):
 
         self.interface = Interface()
 
+        #barulho de soco
+        self.musica_soco = pygame.mixer.Sound('res/sound/[Efeito Sonoro] Soco _ Punch [TEzFJEOdsR8].mp3')
+        
         #hitbox criada para colisao
         self.hitbox_anterior = self.hitbox.copy()
         
@@ -115,6 +118,8 @@ class Jogador(Personagem):
             self.image, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(self.frames_ataque, self.frames_idle,
                                                                                                                         self.ultima_atualizacao, self.frame_atual,
                                                                                                                         self.esta_virado_esquerda, self.esta_atacando)
+            self.musica_soco.set_volume(0.1)
+            self.musica_soco.play()
 
         else:
             self.image, self.ultima_atualizacao, self.frame_atual = self.interface.animacao_movimento(self.frames_movimento, self.frames_idle,
