@@ -86,15 +86,15 @@ class Jogo:
                 "inimigos": [(config.largura - 300, 500), (config.largura - 500, 420)],
                 "checkpoint": False},
 
-            8: {"nome": "Corredores Bloco A ", "fundo": 'res/sprites_textura/frente do cin pixelado.png', "lixos": [(config.largura // 5, config.altura * 4 // 5)],
+            8: {"nome": "Corredores Bloco A ", "fundo": 'res/sprites_textura/praça pixelado.png', "lixos": [(config.largura // 5, config.altura * 4 // 5)],
                 "inimigos": [(config.largura - 100, 400), (config.largura - 700, 450)],
                 "checkpoint": False},
 
-            9: {"nome": "Frente da Sala", "fundo": 'res/sprites_textura/praça pixelado.png', "lixos": [(config.largura // 2, config.altura * 3 // 4)],
+            9: {"nome": "Frente da Sala", "fundo": 'res/sprites_textura/corredor.png', "lixos": [(config.largura // 2, config.altura * 3 // 4)],
                 "inimigos": [(config.largura - 200, 400), (config.largura - 300, 500), (config.largura - 400, 400)],
                 "checkpoint": True},
 
-            10: {"nome": "Auditorio", "fundo": 'res/sprites_textura/frente do cin pixelado.png', "lixos": [(config.largura // 2, config.altura * 5 // 6), (config.largura * 3 // 4, config.altura * 3 // 4)],
+            10: {"nome": "Auditorio", "fundo": 'res/sprites_textura/frente_sala.png', "lixos": [(config.largura // 2, config.altura * 5 // 6), (config.largura * 3 // 4, config.altura * 3 // 4)],
                  "inimigos": [(config.largura - 600, 450)],
                  "checkpoint": False}
         }

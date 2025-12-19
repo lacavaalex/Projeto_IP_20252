@@ -36,6 +36,8 @@ class Jogador(Personagem):
         self.vivo = True
         self.ataque = self.ataque_inicial
         self.velocidade = self.velocidade_inicial
+        self.VIDA_MAX = 16
+        self.quantidade_coracoes = 3
         self.vida = self.VIDA_MAX
 
     #ESSENCIAL metodo de interacao com itens
