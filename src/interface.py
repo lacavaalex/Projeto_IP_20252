@@ -89,7 +89,7 @@ class Interface:
                 tela.blit(textura, (x_pos, y_pos))
 
 
-    def desenhar_vida(self, tela, vida, vida_max, quantidade_coracoes):
+    def desenhar_vida(self, tela, vida, vida_max, quantidade_coracoes, x, y):
         pasta_imagens = os.path.join(os.getcwd(), "res", "sprites_vida")
         caminhos_vida = [os.path.join(pasta_imagens, f'sprite_0{i}.png') for i in range(0, 3)]
         self.frames_vida = self.carregar_lista_imagens(caminhos_vida, 3)
@@ -112,9 +112,8 @@ class Interface:
             else:
                 lista_desenho.append(self.frames_vida[2])
 
-        x = 20
         for frame in lista_desenho:
-            tela.blit(frame, (x, 40))
+            tela.blit(frame, (x, y))
             x += frame.get_width()
 
     def mostrar_itens_coletados(self, tela, itens_coletados):
@@ -188,10 +187,8 @@ class Interface:
 
         return image, ultima_atualizacao, frame_atual
 
-    def animacao_ataque(self, frames_ataque, frames_idle, ultima_atualizacao, frame_atual, esta_virado_esquerda, esta_atacando):
+    def animacao_ataque(self, frames_ataque, frames_idle, ultima_atualizacao, frame_atual, esta_virado_esquerda, esta_atacando, delay=90):
         now = pygame.time.get_ticks()
-        #delay de animacao do soco
-        delay = 90
 
         #esse calculo verifica se o fram precisa ser atualizado usando a passagem de ticks
         if now - ultima_atualizacao >= delay:

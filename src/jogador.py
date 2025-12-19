@@ -7,9 +7,9 @@ class Jogador(Personagem):
     def __init__(self, x, y, limite):
         #construtor da classe mae Personagem, e atributos herdados
         super().__init__(x, y, limite,
-                         vida_max=15,
-                         ataque=50,
-                         velocidade=3,
+                         vida_max=16,
+                         ataque=5,
+                         velocidade=5,
                          vivo=True,
                          largura_hitbox=40,
                          altura_hitbox=80,

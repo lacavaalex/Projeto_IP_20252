@@ -97,7 +97,7 @@ class Personagem(pygame.sprite.Sprite):
         elif self.hitbox.bottom > self.limite['baixo']: self.hitbox.bottom = self.limite['baixo']
 
         #hitbox ajustada
-        self.rect.center = self.hitbox.center
+        self.rect.midbottom = self.hitbox.midbottom
 
     #metodo de OVERRIDE obrigatorio
     def update(self):

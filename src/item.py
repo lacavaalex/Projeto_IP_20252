@@ -30,8 +30,8 @@ class Item(pygame.sprite.Sprite):
             LARGURA_HITBOX_ITEM = 110
             ALTURA_HITBOX_ITEM = 90
         else:
-            LARGURA_HITBOX_ITEM = 60 
-            ALTURA_HITBOX_ITEM = 70
+            LARGURA_HITBOX_ITEM = 80 
+            ALTURA_HITBOX_ITEM = 100
         
         self.hitbox = pygame.Rect(0, 0, LARGURA_HITBOX_ITEM, ALTURA_HITBOX_ITEM)
         self.hitbox.topleft = (x, y) 

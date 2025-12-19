@@ -22,7 +22,7 @@ class Chefe(Personagem):
         self.frames_movimento = self.interface.carregar_lista_imagens(imagens_movimento, self.ESCALA)
         self.frames_ataque = self.interface.carregar_lista_imagens(imagens_ataque, self.ESCALA)
         
-        self.hitbox = pygame.Rect(0, 0, 80, 40)
+        self.hitbox = pygame.Rect(0, 0, 80, 60)
         self.hitbox.topleft = (x, y)
         self.hitbox_soco = pygame.Rect(0, 0, 80, 80)
 
@@ -48,7 +48,7 @@ class Chefe(Personagem):
         if self.esta_atacando:
             self.image, self.ultima_atualizacao, self.frame_atual, self.esta_atacando = self.interface.animacao_ataque(
                 self.frames_ataque, self.frames_idle, self.ultima_atualizacao, self.frame_atual, 
-                self.esta_virado_esquerda, self.esta_atacando)
+                self.esta_virado_esquerda, self.esta_atacando, delay=200)
         
         else:
             esta_em_movimento = distancia < self.RAIO_VISAO and distancia > 100

@@ -54,7 +54,7 @@ class Jogo:
                  "checkpoint": False},
             
             5: { "nome": "Caminho CIn", "cor": (30, 50, 30), "lixos": [(config.largura // 4, config.altura * 3 // 4), (config.largura * 3 // 4 + 100, config.altura * 3 // 4 - 100)],
-                 "inimigos": [(config.largura - 200, 400), (config.largura - 600, 400)],
+                 "inimigos": [(config.largura - 250, 500), (config.largura - 600, 400)],
                  "checkpoint": False},
             
             6: { "nome": "Fachada CIn", "cor": (20, 20, 20), "lixos": [(config.largura // 2, config.altura * 3 // 4)],
@@ -73,7 +73,7 @@ class Jogo:
                  "inimigos": [(config.largura - 200, 400), (config.largura - 300, 500), (config.largura - 400, 400)],
                  "checkpoint": True},
 
-            10: { "nome": "Grad 5", "cor": (100, 0, 0), "lixos": None,
+            10: { "nome": "Auditorio", "cor": (100, 0, 0), "lixos": [(config.largura // 2, config.altura // 4), (config.largura * 3 // 4, config.altura * 3 // 4)],
                   "inimigos": [(config.largura - 600, 450)],
                   "checkpoint": False}
         }
@@ -264,7 +264,8 @@ class Jogo:
         keys = pygame.key.get_pressed()
 
         if self.jogador.vivo:
-
+            
+            self.jogador.interagir_com_item(self.grupo_itens, self.itens_coletados)
             self.jogador.update(keys, self.grupo_inimigos, self.grupo_itens, self.itens_coletados)
             for inimigo in self.grupo_inimigos:
 
@@ -273,7 +274,6 @@ class Jogo:
                 else:
                     inimigo.kill()
 
-            self.jogador.interagir_com_item(self.grupo_itens, self.itens_coletados)
             self.checar_progresso()
 
         else:
@@ -282,12 +282,32 @@ class Jogo:
     #metodo contendo as funcionalidades graficas do pygame
     def draw(self):
         if self.fase_atual <= len(self.dados_fases):
+
+            #cenario
             self.tela.fill(self.dados_fases[self.fase_atual]["cor"]) 
             self.interface.desenhar_chao(self.tela, self.limites_tela, self.fase_atual)
+
+            #entidades
             self.grupo_itens.draw(self.tela)
-            self.interface.desenhar_go(self.tela, self.liberado_para_avancar)
             self.tela.blit(self.jogador.image, self.jogador.rect)
             self.grupo_inimigos.draw(self.tela)
-            self.interface.desenhar_vida(self.tela, self.jogador.vida, self.jogador.VIDA_MAX, self.jogador._quantidade_coracoes)
+
+            #layout
+            if self.fase_atual == len(self.dados_fases):
+                for inimigo in self.grupo_inimigos:
+                    if isinstance(inimigo, Chefe) and inimigo.vivo:
+                        largura_total_coracoes = 10 * 30 
+                        x_boss = config.largura - largura_total_coracoes - 100
+                        
+                        texto_boss = self.interface.fonte.render("Wallyson", True, (255, 255, 255))
+                        self.tela.blit(texto_boss, (x_boss + 20, 20))
+                        
+                        self.interface.desenhar_vida(self.tela, inimigo.vida, inimigo.vida_max, 4, x_boss, 40)
+
+            self.interface.desenhar_vida(self.tela, self.jogador.vida, self.jogador.VIDA_MAX, self.jogador._quantidade_coracoes, 20, 40)
             self.interface.mostrar_itens_coletados(self.tela, self.itens_coletados)
+
+            #texto
+            self.interface.desenhar_go(self.tela, self.liberado_para_avancar)
+
         pygame.display.flip()
