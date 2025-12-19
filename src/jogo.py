@@ -7,7 +7,6 @@ from chefe import Chefe
 from interface import Interface
 from item import Item
 from textos import Textos
-from fundos import Cenario
 
 config = Configuracoes()
 
@@ -55,46 +54,47 @@ class Jogo:
         self.item_checkpoint_gerado = False
         self.itens_coletados = []
         self.item_checkpoint_nome = ""
+        self.imagem_fundo_atual = None
 
         # DADOS DAS FASES
         self.dados_fases = {
-            1: {"nome": "Niate", "fundo": Cenario('res/telas/niate pixelado.png'), "lixos": None,
+            1: {"nome": "Niate", "fundo": 'res/sprites_textura/niate pixelado.png', "lixos": None,
                 "inimigos": [(config.largura - 400, 450), (config.largura - 600, 500)],
                 "checkpoint": False},
 
-            2: {"nome": "Ponte", "fundo": Cenario('res/telas/ponte pixelada.png'), "lixos": [(config.largura // 2, config.altura * 3 // 4)],
-                "inimigos": [(config.largura - 200, 450), (config.largura - 700, 450), (config.largura - 400, 400)],
+            2: {"nome": "Ponte", "fundo": 'res/sprites_textura/ponte pixelada.png', "lixos": [(config.largura // 2, config.altura * 3 // 4)],
+                "inimigos": [(config.largura - 270, 600), (config.largura - 390, 550), (config.largura - 100, 530)],
                 "checkpoint": False},
 
-            3: {"nome": "Churrasquito", "fundo": Cenario('res/telas/churrasquito pixelado.jpg'), "lixos": [(config.largura * 3 // 4 + 100, config.altura * 3 // 4 - 100)],
-                "inimigos": [(config.largura - 100, 400), (config.largura - 300, 500), (config.largura - 500, 350)],
+            3: {"nome": "Churrasquito", "fundo": 'res/sprites_textura/churrasquito pixelado.jpg', "lixos": [(config.largura // 4 + 100, config.altura * 3 // 4)],
+                "inimigos": [(config.largura - 100, 500), (config.largura - 300, 550), (config.largura - 600, 510)],
                 "checkpoint": True},
 
-            4: {"nome": "CTG", "fundo": Cenario('res/telas/engenharia pixelado.jpeg'), "lixos": [(config.largura // 2, config.altura * 3 // 4)],
-                "inimigos": [(config.largura - 400, 450), (config.largura - 500, 500)],
+            4: {"nome": "CTG", "fundo": 'res/sprites_textura/engenharia pixelado.jpeg', "lixos": [(config.largura // 2, config.altura * 3 // 4)],
+                "inimigos": [(config.largura - 400, 600), (config.largura - 700, 600)],
                 "checkpoint": False},
 
-            5: {"nome": "Caminho CIn", "fundo": Cenario('res/telas/niate ctg pixelado.jpeg'), "lixos": [(config.largura // 4, config.altura * 3 // 4), (config.largura * 3 // 4 + 100, config.altura * 3 // 4 - 100)],
-                "inimigos": [(config.largura - 250, 500), (config.largura - 600, 400)],
+            5: {"nome": "Caminho CIn", "fundo": 'res/sprites_textura/niate ctg pixelado.jpeg', "lixos": [(config.largura // 4, config.altura * 3 // 4), (config.largura * 3 // 4, config.altura * 6 // 7)],
+                "inimigos": [(config.largura - 250, 600), (config.largura - 600, 420)],
                 "checkpoint": False},
 
-            6: {"nome": "Fachada CIn", "fundo": Cenario('res/telas/fachada cin pixelado.png'), "lixos": [(config.largura // 2, config.altura * 3 // 4)],
-                "inimigos": [(config.largura - 100, 450), (config.largura - 300, 450), (config.largura - 500, 450)],
+            6: {"nome": "Fachada CIn", "fundo": 'res/sprites_textura/fachada cin pixelado.png', "lixos": [(config.largura // 2, config.altura * 3 // 4)],
+                "inimigos": [(config.largura // 2 - 200, 500), (config.largura - 500, 510), (config.largura - 700, 500)],
                 "checkpoint": True},
 
-            7: {"nome": "frente do cin", "fundo": Cenario('res/telas/frente do cin pixelado.png'), "lixos": [(config.largura // 4, config.altura * 3 // 4)],
-                "inimigos": [(config.largura - 300, 500), (config.largura - 500, 500)],
+            7: {"nome": "frente do cin", "fundo": 'res/sprites_textura/frente do cin pixelado.png', "lixos": [(config.largura // 4, config.altura * 3 // 4)],
+                "inimigos": [(config.largura - 300, 500), (config.largura - 500, 420)],
                 "checkpoint": False},
-            # ADD DEPOIS
-            8: {"nome": "Corredores Bloco A ", "fundo": Cenario('res/telas/frente do cin pixelado.png'), "lixos": [(config.largura // 5, config.altura * 4 // 5)],
+
+            8: {"nome": "Corredores Bloco A ", "fundo": 'res/sprites_textura/frente do cin pixelado.png', "lixos": [(config.largura // 5, config.altura * 4 // 5)],
                 "inimigos": [(config.largura - 100, 400), (config.largura - 700, 450)],
                 "checkpoint": False},
 
-            9: {"nome": "Frente da Sala", "fundo": Cenario('res/telas/praça pixelado.png'), "lixos": [(config.largura // 2, config.altura * 3 // 4)],
+            9: {"nome": "Frente da Sala", "fundo": 'res/sprites_textura/praça pixelado.png', "lixos": [(config.largura // 2, config.altura * 3 // 4)],
                 "inimigos": [(config.largura - 200, 400), (config.largura - 300, 500), (config.largura - 400, 400)],
                 "checkpoint": True},
-            # ADD DEPOIS
-            10: {"nome": "Auditorio", "fundo": Cenario('res/telas/frente do cin pixelado.png'), "lixos": [(config.largura // 2, config.altura // 4), (config.largura * 3 // 4, config.altura * 3 // 4)],
+
+            10: {"nome": "Auditorio", "fundo": 'res/sprites_textura/frente do cin pixelado.png', "lixos": [(config.largura // 2, config.altura * 5 // 6), (config.largura * 3 // 4, config.altura * 3 // 4)],
                  "inimigos": [(config.largura - 600, 450)],
                  "checkpoint": False}
         }
@@ -108,8 +108,8 @@ class Jogo:
         }
 
         # posicao inicial (central)
-        self.x_inicial = 100  # config.largura // 7
-        self.y_inicial = 550  # config.altura // 2
+        self.x_inicial = 100 
+        self.y_inicial = 550 
 
         self.interface = Interface()
         self.jogador = Jogador(
@@ -120,12 +120,16 @@ class Jogo:
 
     def iniciar_fase(self, numero):
         self.tela.fill((0, 0, 0))
-        pygame.display.flip()
 
         self.item_checkpoint_gerado = False
         self.liberado_para_avancar = False
+
         if self.fase_atual <= len(self.dados_fases):
+            caminho_fundo = self.dados_fases[numero]["fundo"]
+            self.imagem_fundo_atual = self.interface.carregar_fundo(caminho_fundo)
             self.eh_checkpoint = self.dados_fases[numero]["checkpoint"]
+        
+        pygame.display.flip()
 
         # fim de jogo
         if self.fase_atual > len(self.dados_fases):
@@ -181,7 +185,7 @@ class Jogo:
             # criacao dos itens de final das fases do checkpoints, e verificacao de coleta
             if len(self.grupo_inimigos) == 0 and not self.item_checkpoint_gerado:
                 self.gerar_itens(self.item_checkpoint_nome, [
-                                 (config.largura - 150, config.altura / 2)])
+                                 (config.largura // 2, 650)])
                 self.item_checkpoint_gerado = True
 
             if len(self.grupo_inimigos) == 0 and len(self.itens_coletados) == tamanho_colecao:
@@ -277,7 +281,7 @@ class Jogo:
 
                 # IF de controle da tela de game over
                 if not self.musica_morte:
-                    pygame.mixer.music.stop()  # para a musica de fundo
+                    pygame.mixer.music.stop()
                     self.musica_game_over.play(0)
                     self.musica_morte = True
 
@@ -324,11 +328,9 @@ class Jogo:
     # metodo contendo as funcionalidades graficas do pygame
     def draw(self):
         if self.fase_atual <= len(self.dados_fases):
-            # add o cenario
-            objeto_cenario = self.dados_fases[self.fase_atual]['fundo']
-            self.tela.blit(objeto_cenario.imagem, (0, 0))
-
-            # cenario
+            #cenario
+            if self.imagem_fundo_atual:
+                self.tela.blit(self.imagem_fundo_atual, (0, 0))
             self.interface.desenhar_chao(
                 self.tela, self.limites_tela, self.fase_atual)
 

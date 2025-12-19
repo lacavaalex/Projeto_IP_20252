@@ -80,6 +80,17 @@ class Interface:
         lista_sprites_item = [os.path.join(pasta_imagens, f"{tipo}_00.png")]
 
         return lista_sprites_item
+    
+    #funcao encarregada do cenario
+    def carregar_fundo(self, caminho_arquivo):
+        try:
+            imagem = pygame.image.load(caminho_arquivo).convert()
+            return pygame.transform.scale(imagem, (config.largura, config.altura))
+        except Exception as e:
+            print(f"Erro ao carregar fundo {caminho_arquivo}: {e}")
+            superficie_falha = pygame.Surface((config.largura, config.altura))
+            superficie_falha.fill((30, 30, 30))
+            return superficie_falha
 
     # metodo que faz o visual do chao
     def desenhar_chao(self, tela, limites_tela, fase_atual):
@@ -149,12 +160,19 @@ class Interface:
             x += largura_moldura + 10
 
     # metodo que mostra as telas de mensagem
-    def mostrar_tela(self, tela, titulo, textos, cor_fundo):
-        tela.fill(cor_fundo)
+    # No arquivo interface.py
+
+    def mostrar_tela(self, tela, titulo, textos, caminho_imagem):
+        fundo = self.carregar_fundo(caminho_imagem)
+        tela.blit(fundo, (0, 0))
+
+        overlay = pygame.Surface((config.largura, config.altura))
+        overlay.set_alpha(150)
+        overlay.fill((0, 0, 0))
+        tela.blit(overlay, (0, 0))
 
         # titulo
         texto_titulo = self.fonte_grande.render(titulo, True, (0, 0, 0))
-
         titulo_x = (config.largura - texto_titulo.get_width()) // 2
         titulo_y = config.altura // 7
 
@@ -165,11 +183,8 @@ class Interface:
         # texto
         for texto, x, y in textos:
             texto_com_fonte = self.fonte.render(texto, True, (0, 0, 0))
-
             x_modificado = x - (texto_com_fonte.get_width() // 2)
-
             tela.blit(texto_com_fonte, (x_modificado + 5, y + 5))
-
             texto_com_fonte = self.fonte.render(texto, True, (255, 255, 255))
             tela.blit(texto_com_fonte, (x_modificado, y))
 

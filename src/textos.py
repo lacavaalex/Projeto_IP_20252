@@ -11,6 +11,7 @@ class Textos():
         self.centro_x = self.config.largura // 2
         self.centro_y = self.config.altura // 2
 
+        self.fundo_geral = 'res/sprites_textura/fundo_geral.png'
         
 
     # tela inicial
@@ -23,7 +24,7 @@ class Textos():
              self.centro_x, self.centro_y + 80)
         ]
         self.interface.mostrar_tela(
-            self.tela, "ROGÉRIO vs WALLYSON:", textos, (0, 0, 0))
+            self.tela, "ROGÉRIO vs WALLYSON:", textos, 'res/sprites_textura/tela_inicial.png')
 
     # tela de controles
     def mostrar_tela_controles(self):
@@ -33,7 +34,7 @@ class Textos():
             ("Continuar: ENTER", self.centro_x, self.centro_y + 40)
         ]
         self.interface.mostrar_tela(
-            self.tela, "CONTROLES", textos, (30, 30, 30))
+            self.tela, "CONTROLES", textos, self.fundo_geral)
 
     # tela de texto após checkpoint
     def mostrar_tela_checkpoint(self, item_coletado):
@@ -49,7 +50,7 @@ class Textos():
             (f"{upgrade}", self.centro_x, self.centro_y),
             ("Pressione ENTER ou START", self.centro_x, self.centro_y + 40)
         ]
-        self.interface.mostrar_tela(self.tela, titulo, textos, (50, 100, 50))
+        self.interface.mostrar_tela(self.tela, titulo, textos, self.fundo_geral)
 
     # tela de vitoria
     def mostrar_tela_vitoria(self):
@@ -60,7 +61,7 @@ class Textos():
             ("Parabéns pela vitória, e boa sorte no próximo período!",
              self.centro_x, self.centro_y + 40)
         ]
-        self.interface.mostrar_tela(self.tela, titulo, texto, (0, 150, 0))
+        self.interface.mostrar_tela(self.tela, titulo, texto, self.fundo_geral)
 
     # tela de derrota
     def mostrar_tela_morte(self):
@@ -75,7 +76,7 @@ class Textos():
             ("Pressione ENTER ou START para voltar ao menu",
              self.centro_x, self.centro_y + 80)
         ]
-        self.interface.mostrar_tela(self.tela, titulo, textos, (150, 0, 0))
+        self.interface.mostrar_tela(self.tela, titulo, textos, self.fundo_geral)
 
     def mostrar_tela_historia(self, fase_historia):
         centro_x = self.config.largura // 2
@@ -101,7 +102,7 @@ class Textos():
                 ("Pressione ENTER ou START para começar", centro_x, centro_y + 300)
             ]
             self.interface.mostrar_tela(
-                self.tela, titulo, textos, (40, 40, 80))
+                self.tela, titulo, textos, self.fundo_geral)
 
         if fase_historia == 2:
             titulo = "O TRAIDOR APARECE!"
@@ -122,4 +123,4 @@ class Textos():
                 ("Pressione ENTER ou START para continuar", centro_x, centro_y + 300)
             ]
             self.interface.mostrar_tela(
-                self.tela, titulo, textos, (80, 40, 40))
+                self.tela, titulo, textos, self.fundo_geral)
