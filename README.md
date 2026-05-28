@@ -5,7 +5,7 @@
 
 ## 👥 Membros da Equipe
 * **Alex Sandro Lacava Vieira Junior** - ([lacavaalex](https://github.com/lacavaalex))
-* **Bruno Antonio da Silva** - ([brunoantsilvs-bas6](https://github.com/brunoantsilvs-bas6))
+* **Bruno Antonio da Silva** - ([SilvaaBruno](https://github.com/SilvaaBruno))
 * **Cleyton Junior da Silva Cardoso** - ([cleytoncardoso](https://github.com/cleytoncardoso))
 * **José Romildo Damião dos Santos Junior** - ([joseromildo0](https://github.com/joseromildo0))
 * **Rogério Henrique de Miranda Tavares** - ([RogerioHenrique1403](https://github.com/RogerioHenrique1403))
